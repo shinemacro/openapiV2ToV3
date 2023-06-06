@@ -1,0 +1,1682 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "This documentation describes price-manage APIs\n\nCopyright 2023 price-manage. All rights reserved.",
+    "title": "服务定价管理/price-manage",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/price-manage/v1/price/queryChangePrice": {
+      "post": {
+        "description": "用于云产品变更询价",
+        "tags": [
+          "service"
+        ],
+        "summary": "变更询价接口",
+        "operationId": "queryChangePrice",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/priceChangeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "schema": {
+              "$ref": "#/definitions/changeResponseSwagger"
+            }
+          }
+        }
+      }
+    },
+    "/api/price-manage/v1/price/queryPrice": {
+      "post": {
+        "description": "新购/续费询价接口",
+        "tags": [
+          "service"
+        ],
+        "summary": "新购/续费询价接口",
+        "operationId": "queryPrice",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/priceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "schema": {
+              "$ref": "#/definitions/priceResponseSwagger"
+            }
+          }
+        }
+      }
+    },
+    "/api/price-manage/v1/price/queryRefundPrice": {
+      "post": {
+        "description": "用于云产品退订页面，进行询价",
+        "tags": [
+          "service"
+        ],
+        "summary": "退订询价接口",
+        "operationId": "queryRefundPrice",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/refundRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "schema": {
+              "$ref": "#/definitions/refundResponseSwagger"
+            }
+          }
+        }
+      }
+    },
+    "/api/price-manage/v1/service/getServiceAttrs": {
+      "post": {
+        "description": "查询服务属性信息",
+        "tags": [
+          "service"
+        ],
+        "summary": "查询服务属性信息",
+        "operationId": "getServiceAttrs",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/serviceAttrReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "schema": {
+              "$ref": "#/definitions/attrRspSwagger"
+            }
+          }
+        }
+      }
+    },
+    "/api/price-manage/v1/service/getServiceRegionInfo": {
+      "post": {
+        "description": "查询服务对应的RegionAz信息",
+        "tags": [
+          "service"
+        ],
+        "summary": "查询服务对应的RegionAz信息",
+        "operationId": "getServiceRegionInfo",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/serviceReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "schema": {
+              "$ref": "#/definitions/regionAzListSwagger"
+            }
+          }
+        }
+      }
+    },
+    "/api/price-manage/v1/service/queryAvailableSpecList": {
+      "post": {
+        "description": "提供云产品界面加载规格信息进行展示",
+        "tags": [
+          "service"
+        ],
+        "summary": "获取region下服务可用规格列表",
+        "operationId": "queryAvailableSpecList",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/serviceSpecReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "schema": {
+              "$ref": "#/definitions/productSpecAvailableSwagger"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AttrRsp": {
+      "type": "object",
+      "properties": {
+        "billingMode": {
+          "$ref": "#/definitions/BillingMode"
+        },
+        "departmentRequired": {
+          "description": "是否关联部门",
+          "type": "boolean",
+          "x-go-name": "DepartmentRequired",
+          "example": true
+        },
+        "resourceGroupRequired": {
+          "description": "是否关联资源集",
+          "type": "boolean",
+          "x-go-name": "ResourceGroupRequired",
+          "example": true
+        },
+        "serviceOpenable": {
+          "description": "服务是否可开通",
+          "type": "boolean",
+          "x-go-name": "ServiceOpenable",
+          "example": true
+        },
+        "serviceVisible": {
+          "description": "服务是否可见",
+          "type": "boolean",
+          "x-go-name": "ServiceVisible",
+          "example": true
+        }
+      },
+      "x-go-package": "price-manage/dto/resp"
+    },
+    "AzInfo": {
+      "type": "object",
+      "properties": {
+        "azId": {
+          "description": "az编码",
+          "type": "string",
+          "x-go-name": "AzId",
+          "example": "az01"
+        },
+        "azName": {
+          "description": "az名称",
+          "type": "string",
+          "x-go-name": "AzName",
+          "example": "az01"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp"
+    },
+    "BillingMode": {
+      "type": "object",
+      "properties": {
+        "defaultMode": {
+          "description": "标签不可见时的默认计费模式",
+          "type": "string",
+          "x-go-name": "DefaultMode",
+          "example": "OnDemand"
+        },
+        "displayModes": {
+          "description": "展现的按钮名称和取值列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DisplayMode"
+          },
+          "x-go-name": "DisplayModes"
+        },
+        "labelName": {
+          "description": "标签名称",
+          "type": "string",
+          "x-go-name": "LabelName",
+          "example": "计费模式"
+        },
+        "labelVisible": {
+          "description": "标签是否可见",
+          "type": "boolean",
+          "x-go-name": "LabelVisible",
+          "example": true
+        }
+      },
+      "x-go-package": "price-manage/dto/resp"
+    },
+    "ChangePriceDetailDTO": {
+      "type": "object",
+      "properties": {
+        "bizType": {
+          "description": "业务类型",
+          "type": "string",
+          "x-go-name": "BizType",
+          "example": "ChangeUpgrade"
+        },
+        "cycleCount": {
+          "description": "周期值",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "CycleCount",
+          "example": 27
+        },
+        "cycleType": {
+          "description": "周期类型",
+          "type": "string",
+          "x-go-name": "CycleType",
+          "example": "Day"
+        },
+        "instanceId": {
+          "description": "实例ID",
+          "type": "string",
+          "x-go-name": "InstanceId",
+          "example": "645ddbf5f8f82700011dadf5"
+        },
+        "ratingKeyPriceDTOS": {
+          "description": "计量Key列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RatingKeyPriceDTO"
+          },
+          "x-go-name": "RatingKeyPriceDTOS"
+        },
+        "refundOrderDTOS": {
+          "description": "退款订单详情列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RefundOrderDTO"
+          },
+          "x-go-name": "RefundOrderDTOS"
+        },
+        "serviceCode": {
+          "description": "服务编码",
+          "type": "string",
+          "x-go-name": "ServiceCode",
+          "example": "ECS"
+        },
+        "serviceName": {
+          "description": "服务名称",
+          "type": "string",
+          "x-go-name": "ServiceName",
+          "example": "云服务器"
+        },
+        "totalFee": {
+          "description": "实例变更总价",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalFee",
+          "example": 494
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "ChangeResponse": {
+      "type": "object",
+      "properties": {
+        "chargeSwitch": {
+          "description": "计费开关:on开启;off关闭",
+          "type": "string",
+          "x-go-name": "ChargeSwitch",
+          "example": "on"
+        },
+        "showPriceSwitch": {
+          "description": "显示价格开关:on显示;off隐藏",
+          "type": "string",
+          "x-go-name": "ShowPriceSwitch",
+          "example": "on"
+        },
+        "totalPrice": {
+          "$ref": "#/definitions/ChangeTotalPrice"
+        },
+        "unitPrice": {
+          "$ref": "#/definitions/UnitPrice"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "ChangeTotalPrice": {
+      "type": "object",
+      "properties": {
+        "changePriceDetailDTOS": {
+          "description": "变更价格详情列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChangePriceDetailDTO"
+          },
+          "x-go-name": "ChangePriceDetailDTOS"
+        },
+        "discount": {
+          "description": "折扣金额",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Discount",
+          "example": 0
+        },
+        "price": {
+          "description": "原价",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Price",
+          "example": 494
+        },
+        "total": {
+          "description": "总价",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Total",
+          "example": 494
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "DisplayMode": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "按钮名称",
+          "type": "string",
+          "x-go-name": "Name",
+          "example": "按需计费"
+        },
+        "value": {
+          "description": "按钮取值",
+          "type": "string",
+          "x-go-name": "Value",
+          "example": "OnDemand"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp"
+    },
+    "PriceDescDetailDTO": {
+      "type": "object",
+      "properties": {
+        "cycleType": {
+          "description": "周期类型",
+          "type": "string",
+          "x-go-name": "CycleType",
+          "example": "月"
+        },
+        "display": {
+          "description": "按需询价页面展现的价格",
+          "type": "string",
+          "x-go-name": "Display",
+          "example": "2904/月"
+        },
+        "fee": {
+          "description": "单价",
+          "type": "string",
+          "x-go-name": "Fee",
+          "example": "2904"
+        },
+        "feeMeasureId": {
+          "description": "费用单位编码",
+          "type": "string",
+          "x-go-name": "FeeMeasureId",
+          "example": "10404"
+        },
+        "feeUnit": {
+          "description": "费用单位：元、分、厘、毫",
+          "type": "string",
+          "x-go-name": "FeeUnit",
+          "example": "元"
+        },
+        "priceId": {
+          "description": "价格ID",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "PriceId",
+          "example": 10061
+        },
+        "priceName": {
+          "description": "价格名称",
+          "type": "string",
+          "x-go-name": "PriceName",
+          "example": "默认单价计费"
+        },
+        "priceType": {
+          "description": "定价类型:按固定规格计费ByFixSpec;按用量（云产品吐计量单）ByUsage",
+          "type": "string",
+          "x-go-name": "PriceType",
+          "example": "ByCycleDefault"
+        },
+        "ratingKey": {
+          "description": "计费项",
+          "type": "string",
+          "x-go-name": "RatingKey",
+          "example": "ByBandwidth"
+        },
+        "ratingVal": {
+          "description": "计费值",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "RatingVal",
+          "example": 5
+        },
+        "ratingkeyName": {
+          "description": "计量指标名称",
+          "type": "string",
+          "x-go-name": "RatingkeyName",
+          "example": "按带宽计费"
+        },
+        "resMeasureId": {
+          "description": "计量单位",
+          "type": "string",
+          "x-go-name": "ResMeasureId",
+          "example": "Mbps"
+        },
+        "resUnit": {
+          "description": "计量单位数值",
+          "type": "string",
+          "x-go-name": "ResUnit",
+          "example": "1"
+        },
+        "unitPriceDesc": {
+          "description": "单价描述字段",
+          "type": "string",
+          "x-go-name": "UnitPriceDesc",
+          "example": "484/Mbps/月"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "PriceDetailDTO": {
+      "type": "object",
+      "properties": {
+        "bizType": {
+          "description": "业务类型",
+          "type": "string",
+          "x-go-name": "BizType",
+          "example": "Create"
+        },
+        "cycleCount": {
+          "description": "周期数",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "CycleCount",
+          "example": 1
+        },
+        "cycleType": {
+          "description": "周期类型",
+          "type": "string",
+          "x-go-name": "CycleType",
+          "example": "Month"
+        },
+        "discount": {
+          "description": "折扣金额",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Discount",
+          "example": 0
+        },
+        "instanceId": {
+          "description": "实例ID",
+          "type": "string",
+          "x-go-name": "InstanceId",
+          "example": "645ddbf5f8f82700011dadf5"
+        },
+        "price": {
+          "description": "原价",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Price",
+          "example": 5100
+        },
+        "ratingKeyPriceDTOS": {
+          "description": "计量key价格列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RatingKeyPriceDTO"
+          },
+          "x-go-name": "RatingKeyPriceDTOS"
+        },
+        "serviceCode": {
+          "description": "服务编码",
+          "type": "string",
+          "x-go-name": "ServiceCode",
+          "example": "ECS"
+        },
+        "serviceDisplayName": {
+          "description": "服务名称",
+          "type": "string",
+          "x-go-name": "ServiceDisplayName",
+          "example": "云服务器"
+        },
+        "specCode": {
+          "description": "规格编码",
+          "type": "string",
+          "x-go-name": "SpecCode",
+          "example": "spec.default"
+        },
+        "specName": {
+          "description": "规格名称",
+          "type": "string",
+          "x-go-name": "SpecName",
+          "example": "默认规格"
+        },
+        "total": {
+          "description": "总价",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Total",
+          "example": 5100
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "PriceResponse": {
+      "type": "object",
+      "properties": {
+        "chargeSwitch": {
+          "description": "计费开关:on开启;off关闭",
+          "type": "string",
+          "x-go-name": "ChargeSwitch",
+          "example": "on"
+        },
+        "showPriceSwitch": {
+          "description": "显示价格开关:on显示;off隐藏",
+          "type": "string",
+          "x-go-name": "ShowPriceSwitch",
+          "example": "on"
+        },
+        "tips": {
+          "description": "价格展示tips数据域",
+          "type": "string",
+          "x-go-name": "Tips",
+          "example": "--"
+        },
+        "totalPrice": {
+          "$ref": "#/definitions/TotalPrice"
+        },
+        "unitPrice": {
+          "$ref": "#/definitions/UnitPrice"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "ProductSpec": {
+      "type": "object",
+      "required": [
+        "serviceCode"
+      ],
+      "properties": {
+        "config": {
+          "description": "计费项",
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "uint64"
+          },
+          "x-go-name": "Config",
+          "example": {
+            "ByBandwidth": 5
+          }
+        },
+        "instanceId": {
+          "description": "实例ID",
+          "type": "string",
+          "x-go-name": "InstanceId",
+          "example": "645ddbf5f8f82700011dadf5"
+        },
+        "serviceCode": {
+          "description": "服务编码",
+          "type": "string",
+          "x-go-name": "ServiceCode",
+          "example": "ECS"
+        },
+        "specCode": {
+          "description": "规格编码",
+          "type": "string",
+          "x-go-name": "SpecCode",
+          "example": "spec.default"
+        }
+      },
+      "x-go-package": "price-manage/dto/req/price"
+    },
+    "ProductSpecAvailable": {
+      "type": "object",
+      "properties": {
+        "deptAvailable": {
+          "description": "是否适用部门",
+          "type": "boolean",
+          "x-go-name": "DeptAvailable",
+          "example": true
+        },
+        "specCode": {
+          "description": "规格编码",
+          "type": "string",
+          "x-go-name": "SpecCode",
+          "example": "spec.default"
+        },
+        "specName": {
+          "description": "规格名称",
+          "type": "string",
+          "x-go-name": "SpecName",
+          "example": "默认规格"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp"
+    },
+    "RatingKeyPriceDTO": {
+      "description": "计量key价格",
+      "type": "object",
+      "properties": {
+        "count": {
+          "description": "数量",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Count",
+          "example": 5
+        },
+        "cycleType": {
+          "description": "周期类型",
+          "type": "string",
+          "x-go-name": "CycleType",
+          "example": "Month"
+        },
+        "fee": {
+          "description": "费用单价",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Fee",
+          "example": 2904
+        },
+        "feeMeasure": {
+          "description": "价格单位编码",
+          "type": "string",
+          "x-go-name": "FeeMeasure",
+          "example": "10404"
+        },
+        "feeUnit": {
+          "description": "费用单位",
+          "type": "string",
+          "x-go-name": "FeeUnit",
+          "example": "元"
+        },
+        "priceId": {
+          "description": "价格ID",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "PriceId",
+          "example": 10061
+        },
+        "priceType": {
+          "description": "定价类型:按固定规格计费ByFixSpec;按用量（云产品吐计量单）ByUsage",
+          "type": "string",
+          "x-go-name": "PriceType",
+          "example": "ByFixSpec"
+        },
+        "ratingKey": {
+          "description": "计量key",
+          "type": "string",
+          "x-go-name": "RatingKey",
+          "example": "ByBandwidth"
+        },
+        "ratingVal": {
+          "description": "计量数量",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "RatingVal",
+          "example": 5
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "RefundDetailDTO": {
+      "type": "object",
+      "properties": {
+        "bizType": {
+          "description": "业务类型",
+          "type": "string",
+          "x-go-name": "BizType",
+          "example": "Refund"
+        },
+        "instanceId": {
+          "description": "实例ID",
+          "type": "string",
+          "x-go-name": "InstanceId",
+          "example": "645ddbf5f8f82700011dadf5"
+        },
+        "refundFee": {
+          "description": "实例剩余金额",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RefundFee",
+          "example": 85
+        },
+        "refundOrderDTOS": {
+          "description": "退款关联的订单数据",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RefundOrderDTO"
+          },
+          "x-go-name": "RefundOrderDTOS"
+        },
+        "serviceCode": {
+          "description": "服务编码",
+          "type": "string",
+          "x-go-name": "ServiceCode",
+          "example": "OPSDEMO"
+        },
+        "serviceDisplayName": {
+          "description": "服务名称",
+          "type": "string",
+          "x-go-name": "ServiceDisplayName",
+          "example": "demo产品"
+        },
+        "specCode": {
+          "description": "规格编码",
+          "type": "string",
+          "x-go-name": "SpecCode",
+          "example": "spec.default"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "RefundOrderDTO": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "description": "订单ID",
+          "type": "string",
+          "x-go-name": "OrderId",
+          "example": "66690853791469568"
+        },
+        "refundFee": {
+          "description": "退款金额",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RefundFee",
+          "example": 85
+        },
+        "remainFee": {
+          "description": "剩余金额",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RemainFee",
+          "example": 85
+        },
+        "totalFee": {
+          "description": "支付总金额",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalFee",
+          "example": 100
+        },
+        "tradeId": {
+          "description": "订单行ID",
+          "type": "string",
+          "x-go-name": "TradeId",
+          "example": "66690853791469569"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "RefundResponse": {
+      "type": "object",
+      "properties": {
+        "chargeSwitch": {
+          "description": "计费开关:on开启;off关闭",
+          "type": "string",
+          "x-go-name": "ChargeSwitch",
+          "example": "on"
+        },
+        "refundDetailDTOS": {
+          "description": "实例退订详情列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RefundDetailDTO"
+          },
+          "x-go-name": "RefundDetailDTOS"
+        },
+        "remainFee": {
+          "description": "剩余金额",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RemainFee",
+          "example": 85
+        },
+        "showPriceSwitch": {
+          "description": "显示价格开关:on显示;off隐藏",
+          "type": "string",
+          "x-go-name": "ShowPriceSwitch",
+          "example": "on"
+        },
+        "totalFee": {
+          "description": "总金额",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TotalFee",
+          "example": 100
+        },
+        "usedFee": {
+          "description": "已使用金额",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UsedFee",
+          "example": 15
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "RegionAzInfo": {
+      "type": "object",
+      "properties": {
+        "azList": {
+          "description": "az列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AzInfo"
+          },
+          "x-go-name": "AzList"
+        },
+        "regionId": {
+          "description": "region编码",
+          "type": "string",
+          "x-go-name": "RegionId",
+          "example": "region0"
+        },
+        "regionName": {
+          "description": "region名称",
+          "type": "string",
+          "x-go-name": "RegionName",
+          "example": "region0"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp"
+    },
+    "RegionAzList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RegionAzInfo"
+      },
+      "x-go-package": "price-manage/dto/resp"
+    },
+    "ServiceCodeReq": {
+      "type": "object",
+      "required": [
+        "serviceCode"
+      ],
+      "properties": {
+        "serviceCode": {
+          "description": "服务编码",
+          "type": "string",
+          "x-go-name": "ServiceCode",
+          "example": "ECS"
+        }
+      },
+      "x-go-package": "price-manage/dto/req"
+    },
+    "TenantNotRequired": {
+      "type": "object",
+      "properties": {
+        "departmentId": {
+          "description": "部门id",
+          "type": "string",
+          "x-go-name": "DepartmentId",
+          "example": "1"
+        },
+        "tenantId": {
+          "description": "租户id",
+          "type": "string",
+          "x-go-name": "TenantId",
+          "example": "1"
+        },
+        "userId": {
+          "description": "用户id",
+          "type": "string",
+          "x-go-name": "UserId",
+          "example": "1"
+        }
+      },
+      "x-go-package": "price-manage/dto/req"
+    },
+    "TotalPrice": {
+      "type": "object",
+      "properties": {
+        "discount": {
+          "description": "折扣金额",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Discount",
+          "example": 0
+        },
+        "price": {
+          "description": "原价",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Price",
+          "example": 5620
+        },
+        "priceDetailDTOS": {
+          "description": "价格详情列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PriceDetailDTO"
+          },
+          "x-go-name": "PriceDetailDTOS"
+        },
+        "total": {
+          "description": "总价",
+          "type": "integer",
+          "format": "int32",
+          "x-go-name": "Total",
+          "example": 5620
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "UnitPrice": {
+      "type": "object",
+      "properties": {
+        "unitPriceDetailDTOS": {
+          "description": "单价详情列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UnitPriceDetailDTO"
+          },
+          "x-go-name": "UnitPriceDetailDTOS"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "UnitPriceDetailDTO": {
+      "type": "object",
+      "properties": {
+        "priceDescDetailDTOS": {
+          "description": "规格计费项单价列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PriceDescDetailDTO"
+          },
+          "x-go-name": "PriceDescDetailDTOS"
+        },
+        "serviceCode": {
+          "description": "服务编码",
+          "type": "string",
+          "x-go-name": "ServiceCode",
+          "example": "ECS"
+        },
+        "serviceDisplayName": {
+          "description": "服务名称",
+          "type": "string",
+          "x-go-name": "ServiceDisplayName",
+          "example": "云服务器"
+        },
+        "specCode": {
+          "description": "规格编码",
+          "type": "string",
+          "x-go-name": "SpecCode",
+          "example": "spec.default"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/price"
+    },
+    "attrRspSwagger": {
+      "type": "object",
+      "required": [
+        "requestId",
+        "code",
+        "message",
+        "data"
+      ],
+      "properties": {
+        "code": {
+          "description": "返回编码",
+          "type": "string",
+          "x-go-name": "Code",
+          "example": "Success"
+        },
+        "data": {
+          "$ref": "#/definitions/AttrRsp"
+        },
+        "message": {
+          "description": "返回提示",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "Success"
+        },
+        "requestId": {
+          "description": "请求id",
+          "type": "string",
+          "x-go-name": "RequestId",
+          "example": "909d8338-0537-41aa-a359-628ca23f97e4"
+        }
+      },
+      "x-go-name": "AttrRspSwagger",
+      "x-go-package": "price-manage/dto/resp/swagger"
+    },
+    "changeResponseSwagger": {
+      "type": "object",
+      "required": [
+        "requestId",
+        "code",
+        "message",
+        "data"
+      ],
+      "properties": {
+        "code": {
+          "description": "返回编码",
+          "type": "string",
+          "x-go-name": "Code",
+          "example": "Success"
+        },
+        "data": {
+          "$ref": "#/definitions/ChangeResponse"
+        },
+        "message": {
+          "description": "返回提示",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "Success"
+        },
+        "requestId": {
+          "description": "请求id",
+          "type": "string",
+          "x-go-name": "RequestId",
+          "example": "909d8338-0537-41aa-a359-628ca23f97e4"
+        }
+      },
+      "x-go-name": "ChangeResponseSwagger",
+      "x-go-package": "price-manage/dto/resp/swagger"
+    },
+    "commonResponseSwagger": {
+      "type": "object",
+      "required": [
+        "requestId",
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "description": "返回编码",
+          "type": "string",
+          "x-go-name": "Code",
+          "example": "Success"
+        },
+        "message": {
+          "description": "返回提示",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "Success"
+        },
+        "requestId": {
+          "description": "请求id",
+          "type": "string",
+          "x-go-name": "RequestId",
+          "example": "909d8338-0537-41aa-a359-628ca23f97e4"
+        }
+      },
+      "x-go-package": "price-manage/dto/resp/swagger"
+    },
+    "priceChangeRequest": {
+      "type": "object",
+      "required": [
+        "tenantId",
+        "departmentId",
+        "userId",
+        "userCode",
+        "regionId",
+        "action",
+        "billingMode",
+        "productSpecList"
+      ],
+      "properties": {
+        "action": {
+          "description": "业务类型",
+          "type": "string",
+          "x-go-name": "Action",
+          "example": "Change"
+        },
+        "azId": {
+          "description": "Az编码",
+          "type": "string",
+          "x-go-name": "AzId",
+          "example": "zone-1"
+        },
+        "billingMode": {
+          "description": "计费模式",
+          "type": "string",
+          "x-go-name": "BillingMode",
+          "example": "ByCycle"
+        },
+        "departmentId": {
+          "description": "部门ID",
+          "type": "string",
+          "x-go-name": "DepartmentId",
+          "example": "7066600711894499328"
+        },
+        "priceSwitch": {
+          "description": "计价开关 不传入",
+          "type": "string",
+          "x-go-name": "PriceSwitch"
+        },
+        "productSpecList": {
+          "description": "实例列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProductSpec"
+          },
+          "x-go-name": "ProductSpecList"
+        },
+        "regionId": {
+          "description": "region编码",
+          "type": "string",
+          "x-go-name": "RegionId",
+          "example": "region1"
+        },
+        "source": {
+          "description": "请求来源:WebSelfServicePortal自服务门户;WebManagerService管理服务;openapi;",
+          "type": "string",
+          "x-go-name": "Source",
+          "example": "WebSelfServicePortal"
+        },
+        "tenantId": {
+          "description": "租户ID",
+          "type": "string",
+          "x-go-name": "TenantId",
+          "example": "7066600543946178560"
+        },
+        "userCode": {
+          "description": "用户Code",
+          "type": "string",
+          "x-go-name": "UserCode",
+          "example": "admin"
+        },
+        "userId": {
+          "description": "用户ID",
+          "type": "string",
+          "x-go-name": "UserId",
+          "example": "7066591673123241984"
+        }
+      },
+      "x-go-name": "PriceChangeRequest",
+      "x-go-package": "price-manage/dto/req/price"
+    },
+    "priceRequest": {
+      "type": "object",
+      "required": [
+        "tenantId",
+        "departmentId",
+        "userId",
+        "userCode",
+        "regionId",
+        "action",
+        "billingMode",
+        "productSpecList"
+      ],
+      "properties": {
+        "action": {
+          "description": "业务类型",
+          "type": "string",
+          "x-go-name": "Action",
+          "example": "Create"
+        },
+        "amount": {
+          "description": "购买数量",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Amount",
+          "example": 1
+        },
+        "azId": {
+          "description": "Az编码",
+          "type": "string",
+          "x-go-name": "AzId",
+          "example": "zone-1"
+        },
+        "billingMode": {
+          "description": "计费模式",
+          "type": "string",
+          "x-go-name": "BillingMode",
+          "example": "ByCycle"
+        },
+        "cycleCount": {
+          "description": "周期值",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "CycleCount",
+          "example": 1
+        },
+        "cycleType": {
+          "description": "周期类型",
+          "type": "string",
+          "x-go-name": "CycleType",
+          "example": "Month"
+        },
+        "departmentId": {
+          "description": "部门ID",
+          "type": "string",
+          "x-go-name": "DepartmentId",
+          "example": "7066600711894499328"
+        },
+        "priceSwitch": {
+          "description": "计价开关 不传入",
+          "type": "string",
+          "x-go-name": "PriceSwitch"
+        },
+        "productSpecList": {
+          "description": "产品列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProductSpec"
+          },
+          "x-go-name": "ProductSpecList"
+        },
+        "regionId": {
+          "description": "region编码",
+          "type": "string",
+          "x-go-name": "RegionId",
+          "example": "region1"
+        },
+        "source": {
+          "description": "请求来源:WebSelfServicePortal自服务门户;WebManagerService管理服务;openapi;",
+          "type": "string",
+          "x-go-name": "Source",
+          "example": "WebSelfServicePortal"
+        },
+        "tenantId": {
+          "description": "租户ID",
+          "type": "string",
+          "x-go-name": "TenantId",
+          "example": "7066600543946178560"
+        },
+        "userCode": {
+          "description": "用户Code",
+          "type": "string",
+          "x-go-name": "UserCode",
+          "example": "admin"
+        },
+        "userId": {
+          "description": "用户ID",
+          "type": "string",
+          "x-go-name": "UserId",
+          "example": "7066591673123241984"
+        }
+      },
+      "x-go-name": "PriceRequest",
+      "x-go-package": "price-manage/dto/req/price"
+    },
+    "priceResponseSwagger": {
+      "type": "object",
+      "required": [
+        "requestId",
+        "code",
+        "message",
+        "data"
+      ],
+      "properties": {
+        "code": {
+          "description": "返回编码",
+          "type": "string",
+          "x-go-name": "Code",
+          "example": "Success"
+        },
+        "data": {
+          "$ref": "#/definitions/PriceResponse"
+        },
+        "message": {
+          "description": "返回提示",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "Success"
+        },
+        "requestId": {
+          "description": "请求id",
+          "type": "string",
+          "x-go-name": "RequestId",
+          "example": "909d8338-0537-41aa-a359-628ca23f97e4"
+        }
+      },
+      "x-go-name": "PriceResponseSwagger",
+      "x-go-package": "price-manage/dto/resp/swagger"
+    },
+    "productSpecAvailableSwagger": {
+      "type": "object",
+      "required": [
+        "requestId",
+        "code",
+        "message",
+        "data"
+      ],
+      "properties": {
+        "code": {
+          "description": "返回编码",
+          "type": "string",
+          "x-go-name": "Code",
+          "example": "Success"
+        },
+        "data": {
+          "description": "返回结果",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProductSpecAvailable"
+          },
+          "x-go-name": "Data"
+        },
+        "message": {
+          "description": "返回提示",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "Success"
+        },
+        "requestId": {
+          "description": "请求id",
+          "type": "string",
+          "x-go-name": "RequestId",
+          "example": "909d8338-0537-41aa-a359-628ca23f97e4"
+        }
+      },
+      "x-go-name": "ProductSpecAvailableSwagger",
+      "x-go-package": "price-manage/dto/resp/swagger"
+    },
+    "refundRequest": {
+      "type": "object",
+      "required": [
+        "tenantId",
+        "departmentId",
+        "userId",
+        "userCode",
+        "regionId",
+        "action"
+      ],
+      "properties": {
+        "action": {
+          "description": "业务类型",
+          "type": "string",
+          "x-go-name": "Action",
+          "example": "Refund"
+        },
+        "azId": {
+          "description": "Az编码",
+          "type": "string",
+          "x-go-name": "AzId",
+          "example": "zone-1"
+        },
+        "departmentId": {
+          "description": "部门ID",
+          "type": "string",
+          "x-go-name": "DepartmentId",
+          "example": "7066600711894499328"
+        },
+        "regionId": {
+          "description": "region编码",
+          "type": "string",
+          "x-go-name": "RegionId",
+          "example": "region1"
+        },
+        "source": {
+          "description": "请求来源:WebSelfServicePortal自服务门户;WebManagerService管理服务;openapi;",
+          "type": "string",
+          "x-go-name": "Source",
+          "example": "WebSelfServicePortal"
+        },
+        "spec": {
+          "$ref": "#/definitions/ProductSpec"
+        },
+        "tenantId": {
+          "description": "租户ID",
+          "type": "string",
+          "x-go-name": "TenantId",
+          "example": "7066600543946178560"
+        },
+        "userCode": {
+          "description": "用户Code",
+          "type": "string",
+          "x-go-name": "UserCode",
+          "example": "admin"
+        },
+        "userId": {
+          "description": "用户ID",
+          "type": "string",
+          "x-go-name": "UserId",
+          "example": "7066591673123241984"
+        }
+      },
+      "x-go-name": "RefundRequest",
+      "x-go-package": "price-manage/dto/req/price"
+    },
+    "refundResponseSwagger": {
+      "type": "object",
+      "required": [
+        "requestId",
+        "code",
+        "message",
+        "data"
+      ],
+      "properties": {
+        "code": {
+          "description": "返回编码",
+          "type": "string",
+          "x-go-name": "Code",
+          "example": "Success"
+        },
+        "data": {
+          "$ref": "#/definitions/RefundResponse"
+        },
+        "message": {
+          "description": "返回提示",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "Success"
+        },
+        "requestId": {
+          "description": "请求id",
+          "type": "string",
+          "x-go-name": "RequestId",
+          "example": "909d8338-0537-41aa-a359-628ca23f97e4"
+        }
+      },
+      "x-go-name": "RefundResponseSwagger",
+      "x-go-package": "price-manage/dto/resp/swagger"
+    },
+    "regionAzListSwagger": {
+      "type": "object",
+      "required": [
+        "requestId",
+        "code",
+        "message",
+        "data"
+      ],
+      "properties": {
+        "code": {
+          "description": "返回编码",
+          "type": "string",
+          "x-go-name": "Code",
+          "example": "Success"
+        },
+        "data": {
+          "$ref": "#/definitions/RegionAzList"
+        },
+        "message": {
+          "description": "返回提示",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "Success"
+        },
+        "requestId": {
+          "description": "请求id",
+          "type": "string",
+          "x-go-name": "RequestId",
+          "example": "909d8338-0537-41aa-a359-628ca23f97e4"
+        }
+      },
+      "x-go-name": "RegionAzListSwagger",
+      "x-go-package": "price-manage/dto/resp/swagger"
+    },
+    "respVo": {
+      "type": "object",
+      "required": [
+        "requestId",
+        "code",
+        "message",
+        "data"
+      ],
+      "properties": {
+        "code": {
+          "description": "返回编码",
+          "type": "string",
+          "x-go-name": "Code",
+          "example": "Success"
+        },
+        "data": {
+          "description": "返回结果",
+          "x-go-name": "Data"
+        },
+        "message": {
+          "description": "返回提示",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "Success"
+        },
+        "requestId": {
+          "description": "请求id",
+          "type": "string",
+          "x-go-name": "RequestId",
+          "example": "909d8338-0537-41aa-a359-628ca23f97e4"
+        }
+      },
+      "x-go-name": "RespVo",
+      "x-go-package": "price-manage/response"
+    },
+    "serviceAttrReq": {
+      "type": "object",
+      "required": [
+        "serviceCode",
+        "tenantId",
+        "departmentId",
+        "userId"
+      ],
+      "properties": {
+        "departmentId": {
+          "description": "部门ID",
+          "type": "string",
+          "x-go-name": "DepartmentId",
+          "example": "7066600711894499328"
+        },
+        "serviceCode": {
+          "description": "服务编码",
+          "type": "string",
+          "x-go-name": "ServiceCode",
+          "example": "ECS"
+        },
+        "tenantId": {
+          "description": "租户ID",
+          "type": "string",
+          "x-go-name": "TenantId",
+          "example": "7066600543946178560"
+        },
+        "userId": {
+          "description": "用户ID",
+          "type": "string",
+          "x-go-name": "UserId",
+          "example": "7066591673123241984"
+        }
+      },
+      "x-go-name": "ServiceAttrReq",
+      "x-go-package": "price-manage/dto/req"
+    },
+    "serviceReq": {
+      "type": "object",
+      "required": [
+        "serviceCode",
+        "tenantId",
+        "departmentId",
+        "userId"
+      ],
+      "properties": {
+        "departmentId": {
+          "description": "部门ID",
+          "type": "string",
+          "x-go-name": "DepartmentId",
+          "example": "7066600711894499328"
+        },
+        "serviceCode": {
+          "description": "服务编码",
+          "type": "string",
+          "x-go-name": "ServiceCode",
+          "example": "ECS"
+        },
+        "tenantId": {
+          "description": "租户ID",
+          "type": "string",
+          "x-go-name": "TenantId",
+          "example": "7066600543946178560"
+        },
+        "userId": {
+          "description": "用户ID",
+          "type": "string",
+          "x-go-name": "UserId",
+          "example": "7066591673123241984"
+        }
+      },
+      "x-go-name": "ServiceReq",
+      "x-go-package": "price-manage/dto/req"
+    },
+    "serviceSpecReq": {
+      "type": "object",
+      "required": [
+        "serviceCode",
+        "regionId"
+      ],
+      "properties": {
+        "departmentId": {
+          "description": "部门id",
+          "type": "string",
+          "x-go-name": "DepartmentId",
+          "example": "1"
+        },
+        "regionId": {
+          "description": "region编码",
+          "type": "string",
+          "x-go-name": "RegionId",
+          "example": "region0"
+        },
+        "serviceCode": {
+          "description": "服务编码",
+          "type": "string",
+          "x-go-name": "ServiceCode",
+          "example": "ECS"
+        },
+        "tenantId": {
+          "description": "租户id",
+          "type": "string",
+          "x-go-name": "TenantId",
+          "example": "1"
+        },
+        "userId": {
+          "description": "用户id",
+          "type": "string",
+          "x-go-name": "UserId",
+          "example": "1"
+        }
+      },
+      "x-go-name": "ServiceSpecReq",
+      "x-go-package": "price-manage/dto/req"
+    }
+  }
+}
